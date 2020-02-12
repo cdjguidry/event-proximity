@@ -1,0 +1,54 @@
+import * as React from 'react';
+import { View, StyleSheet, Dimensions } from 'react-native';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+
+import Map from './Map';
+import List from './List';
+
+const FirstRoute = () => (
+    <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
+);
+
+const SecondRoute = () => (
+    <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+);
+
+const initialLayout = { width: Dimensions.get('window').width };
+
+export default function TabViewExample() {
+    const [index, setIndex] = React.useState(0);
+    const [routes] = React.useState([
+        { key: 'first', title: 'Map' },
+        { key: 'second', title: 'List' },
+    ]);
+
+    const renderScene = SceneMap({
+        first: Map,
+        second: List,
+    });
+
+    return (
+        <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={initialLayout}
+            renderTabBar={props =>
+                <TabBar
+                    {...props}
+                    indicatorStyle={{ backgroundColor: 'white' }}
+                    style={styles.tabBar}
+                />
+            }
+        />
+    );
+}
+
+const styles = StyleSheet.create({
+    scene: {
+        flex: 1,
+    },
+    tabBar: {
+        backgroundColor: '#260859'
+    }
+});
